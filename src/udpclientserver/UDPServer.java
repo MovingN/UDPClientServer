@@ -35,12 +35,14 @@ public class UDPServer {
 
     public void leggi() {
         try {
+            while (true) {
             byte[] receiveData = new byte[1024];
             in = new DatagramPacket(receiveData, receiveData.length);
             serverSocket.receive(in);
             InetAddress IPAddress = in.getAddress();
             portaCl = in.getPort();
             String ricevuto = new String(in.getData(), 0, in.getLength());
+          }
         } catch (IOException ex) {
             System.err.println("Problema in leggi");
         }
@@ -52,8 +54,9 @@ public class UDPServer {
             byte[] data = invio.getBytes();
             InetAddress IPAddress = in.getAddress();
             portaCl = in.getPort();
-            out = new DatagramPacket(data, data.length, InetAddress.getByName(IPAddress), portaCl);
+            out = new DatagramPacket(data, data.length, IPAddress, portaCl);
             serverSocket.send(out);
+            System.out.println("Risposta inviata");
         } catch (UnknownHostException ex) {
             System.err.println("Errore in scrivi");
         } catch (IOException ex) {
